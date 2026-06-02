@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>✨ German A00 with Alex · Lesson 1 ✨</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: radial-gradient(ellipse at 30% 40%, #010110, #000000);
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Stars, planets, rocket animations */
+        .star {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: starGlow 4s infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes starGlow {
+            0% { opacity: 0.2; transform: scale(0.8); box-shadow: 0 0 2px #fff; }
+            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 12px #ffec9e; }
+        }
+        .planet { position: fixed; font-size: 3rem; pointer-events: none; z-index: 0; filter: drop-shadow(0 0 15px cyan); }
+        .earth { top: 15%; left: 5%; animation: floatEarth 20s infinite alternate; }
+        .moon { bottom: 10%; right: 5%; animation: floatMoon 18s infinite alternate; }
+        .mars { top: 60%; left: 85%; animation: floatMars 22s infinite alternate; }
+        .rocket { position: fixed; bottom: 5%; left: 2%; font-size: 3rem; pointer-events: none; animation: flyRocket 20s infinite linear; z-index: 0; }
+        @keyframes floatEarth { 0% { transform: translate(0,0); } 100% { transform: translate(40px,30px); } }
+        @keyframes floatMoon { 0% { transform: translate(0,0); } 100% { transform: translate(-30px,-20px); } }
+        @keyframes floatMars { 0% { transform: translate(0,0); } 100% { transform: translate(50px,-30px); } }
+        @keyframes flyRocket { 0% { transform: translateX(0) translateY(0); } 100% { transform: translateX(1800px) translateY(-300px); } }
+        
+        .quiz-wrapper {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(3, 8, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 70px;
+            padding: 1.8rem 2rem;
+            border: 2px solid rgba(0, 200, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0,150,255,0.4);
+            z-index: 2;
+        }
+        h1 {
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            background: linear-gradient(135deg,#aaddff,#3388ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 1rem; }
+        .total-badge { background: #0a1a2a; padding: 8px 20px; border-radius: 40px; color: #aaffff; font-size: 0.9rem; }
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: #0a1020cc;
+            border-radius: 70px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .stat-card { background: #0a1a2a; padding: 7px 18px; border-radius: 40px; color: #ddf4ff; font-size: 0.9rem; white-space: nowrap; }
+        .progress-area { display: flex; gap: 18px; margin: 15px 0; align-items: center; flex-wrap: wrap; }
+        .progress-bar-bg { flex: 1; min-width: 150px; background: #1a2a3a; height: 28px; border-radius: 60px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg,#44aaff,#2288cc); transition: width 0.5s; }
+        .progress-text { background: #0a1a2a; padding: 5px 15px; border-radius: 40px; color: #aaffff; font-weight: bold; }
+        .question-card { background: #0a1022ee; border-radius: 52px; padding: 28px; border: 1px solid #44aaff; }
+        .question-text {
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
+            background: #11223c;
+            border-radius: 60px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #f0fcff;
+            font-weight: bold;
+            word-break: break-word;
+        }
+        label { font-size: 1rem; color: #bbddff; margin-left: 10px; display: block; }
+        .answer-input {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1rem;
+            background: #1a2a3e;
+            border: 2px solid #5599dd;
+            border-radius: 60px;
+            color: white;
+            margin: 15px 0;
+            outline: none;
+        }
+        .answer-input:focus { border-color: #aaffff; box-shadow: 0 0 12px cyan; }
+        .feedback {
+            background: #051020;
+            border-radius: 56px;
+            padding: 16px 28px;
+            margin: 15px 0 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            text-shadow: 0 0 8px #00ffff;
+            word-break: break-word;
+        }
+        .btn {
+            border: none;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            color: white;
+            margin: 5px;
+            transition: transform 0.05s linear;
+        }
+        .btn:active { transform: translateY(2px); }
+        .btn-check { background: #0066cc; box-shadow: 0 4px 0 #003366; }
+        .btn-check:hover { background: #0088ff; }
+        .btn-next { background: #0099cc; box-shadow: 0 4px 0 #006699; }
+        .btn-restart { background: #3a2a6e; box-shadow: 0 4px 0 #1a1a4a; }
+        .hidden { display: none; }
+        .review { background: #0a1022ee; border-radius: 52px; padding: 28px; margin-top: 30px; max-height: 500px; overflow-y: auto; }
+        .mistake-item { background: #1a2a40; padding: 12px; border-radius: 40px; margin-bottom: 10px; color: #ddf4ff; word-break: break-word; }
+        .inspire { background: rgba(10,20,40,0.8); border-radius: 60px; padding: 14px; text-align: center; margin-bottom: 20px; border: 1px solid cyan; }
+        .motivation-text { font-size: clamp(0.8rem, 4vw, 1rem); font-style: italic; color: #cceeff; }
+        .restart-above { text-align: right; margin-bottom: 10px; }
+        .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 10px; }
+        .rules-box {
+            background: #0a1a2a;
+            border-radius: 40px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #bbddff;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .quiz-wrapper { padding: 1rem; }
+            .question-card { padding: 18px; }
+            .stats { justify-content: center; }
+            .stat-card { font-size: 0.75rem; padding: 5px 12px; white-space: normal; text-align: center; }
+            .btn { padding: 10px 20px; font-size: 0.9rem; }
+            .answer-input { padding: 14px 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="planet earth">🌍</div>
+<div class="planet moon">🌙</div>
+<div class="planet mars">🪐</div>
+<div class="rocket">🚀</div>
+<script>
+    for(let i=0;i<150;i++){
+        let s=document.createElement('div');
+        s.classList.add('star');
+        let sz=Math.random()*3+1;
+        s.style.width=sz+'px';
+        s.style.height=sz+'px';
+        s.style.left=Math.random()*100+'%';
+        s.style.top=Math.random()*100+'%';
+        s.style.animationDelay=Math.random()*6+'s';
+        document.body.appendChild(s);
+    }
+</script>
+
+<div class="quiz-wrapper" id="quizMain">
+    <div class="top-bar">
+        <h1>🇩🇪 German A00 with Alex · Lesson 1</h1>
+        <div class="total-badge" id="totalDisplay">📘 total: 0</div>
+    </div>
+    <div class="inspire" id="inspireBox">
+        <span class="motivation-text">✨ Willkommen, Nafisa! ✨</span>
+    </div>
+    <div id="startScreen" style="text-align:center; padding:40px 0;">
+        <button class="btn btn-check" id="startBtn" style="font-size:1.8rem;">🚀 Start Lesson 1 🌟</button>
+    </div>
+    <div id="quizInterface" class="hidden">
+        <div class="restart-above">
+            <button class="btn btn-restart" id="restartTopBtn" style="padding:8px 20px;">🔄 Restart anytime</button>
+        </div>
+        <div class="rules-box">
+            📖 How to use: <strong>Enter</strong> key → first press checks answer, second press goes to next question.<br>
+            Capitalization doesn't matter. If two versions are correct (separated by <strong>/</strong>), both are accepted.
+        </div>
+        <div class="stats">
+            <div class="stat-card">✅ Correct: <span id="correctCount">0</span></div>
+            <div class="stat-card">❌ Mistakes: <span id="mistakeCount">0</span></div>
+            <div class="stat-card">🎯 Accuracy: <span id="accuracyPercent">0</span>%</div>
+            <div class="stat-card">📝 Answered: <span id="answeredCount">0</span></div>
+            <div class="stat-card">🌌 Remaining: <span id="remainingCount">0</span></div>
+        </div>
+        <div class="progress-area">
+            <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressFraction">0/0</div>
+        </div>
+        <div class="question-card">
+            <div class="question-text" id="questionDisplay">loading...</div>
+            <label for="answerInput">📝 Type German translation:</label>
+            <input type="text" id="answerInput" class="answer-input" placeholder="e.g. Ich heiße Nafisa" autocomplete="off">
+            <div class="feedback" id="feedbackArea">✨ Write your answer → press Enter ✨</div>
+            <div class="button-group">
+                <button class="btn btn-check" id="checkBtn">✅ Check</button>
+                <button class="btn btn-next" id="nextBtn">➡ Next</button>
+            </div>
+        </div>
+        <div id="reviewBlock" class="review hidden">
+            <h3 style="color:#aaffdd;">📖 Mistake review – Nafisa</h3>
+            <div id="mistakeList"></div>
+            <button class="btn btn-restart" id="restartReviewBtn">🚀 Restart quiz</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ----- YOUR NOTES (English → German, with / alternatives) -----
+    const rawNotes = [
+        { english: "Hello", german: "Hallo" },
+        { english: "to be called", german: "heißen" },
+        { english: "My name is Nafisa / I am called Nafisa", german: "Ich heiße Nafisa / Mein Name ist Nafisa" },
+        { english: "to come", german: "kommen" },
+        { english: "I am from Uzbekistan", german: "Ich komme aus Usbekistan" },
+        { english: "I am from Germany", german: "Ich komme aus Deutschland" },
+        { english: "I am from Russia", german: "Ich komme aus Russland" },
+        { english: "I am from Ukraine", german: "Ich komme aus der Ukraine" },
+        { english: "to speak", german: "sprechen" },
+        { english: "I speak German / I’m speaking German", german: "Ich spreche Deutsch" },
+        { english: "I speak English / I’m speaking English", german: "Ich spreche Englisch" },
+        { english: "I speak English and German / I’m speaking English and German", german: "Ich spreche Englisch und Deutsch" },
+        { english: "to work", german: "arbeiten" },
+        { english: "I work / I’m working", german: "Ich arbeite" },
+        { english: "to study", german: "studieren" },
+        { english: "I study / I’m studying", german: "Ich studiere" },
+        { english: "I work and study / I’m working and studying", german: "Ich arbeite und studiere" },
+        { english: "Bye / Goodbye", german: "Tschüss" },
+        { english: "See you soon", german: "Bis bald" }
+    ];
+
+    // Build question bank: each has clean English and array of correct German alternatives (lowercase normalized)
+    let questionsBank = [];
+    for (let note of rawNotes) {
+        let alternatives = note.german.split('/').map(s => s.trim().toLowerCase().replace(/\s+/g, ' '));
+        let cleanEnglish = note.english.split('/')[0].trim();
+        questionsBank.push({
+            english: cleanEnglish,
+            germanAlts: alternatives
+        });
+    }
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    let currentQuestions = [];
+    let currentIndex = 0, correct = 0, wrong = 0;
+    let isAnswered = false;
+    let mistakes = [];
+    let quizActive = false;
+    let quoteInterval = null;
+
+    // DOM elements
+    const startScreen = document.getElementById('startScreen');
+    const quizInterface = document.getElementById('quizInterface');
+    const startBtn = document.getElementById('startBtn');
+    const questionDisplay = document.getElementById('questionDisplay');
+    const answerInput = document.getElementById('answerInput');
+    const feedbackArea = document.getElementById('feedbackArea');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const correctSpan = document.getElementById('correctCount');
+    const mistakeSpan = document.getElementById('mistakeCount');
+    const accuracySpan = document.getElementById('accuracyPercent');
+    const answeredSpan = document.getElementById('answeredCount');
+    const remainingSpan = document.getElementById('remainingCount');
+    const progressFill = document.getElementById('progressFill');
+    const progressFraction = document.getElementById('progressFraction');
+    const reviewBlock = document.getElementById('reviewBlock');
+    const mistakeList = document.getElementById('mistakeList');
+    const totalDisplay = document.getElementById('totalDisplay');
+    const restartTopBtn = document.getElementById('restartTopBtn');
+    const restartReviewBtn = document.getElementById('restartReviewBtn');
+    const inspireBox = document.getElementById('inspireBox');
+
+    const totalQ = questionsBank.length;
+    totalDisplay.textContent = `📘 total: ${totalQ}`;
+
+    // Motivational quotes with Nafisa
+    const quotes = [
+        "✨ Nafisa, every word you learn builds a bridge to a new world. ✨",
+        "📚 You are not just learning German – you are growing a garden of knowledge. 🌱",
+        "🚀 Nafisa, your curiosity lights up the stars. Keep going! 💫",
+        "💡 Mistakes are proof that you are trying. You are amazing! 🌟",
+        "🌙 Every correct answer is a little victory. Celebrate yourself, Nafisa! 🎉",
+        "🇩🇪 German may be tricky, but you are even stronger. 💪",
+        "✨ Learning a language is an adventure, and you are the hero. 🦸‍♀️",
+        "📖 Nafisa, your dedication inspires me. Keep shining! ☀️"
+    ];
+    function updateRandomQuote() {
+        let idx = Math.floor(Math.random() * quotes.length);
+        inspireBox.innerHTML = `<span class="motivation-text">${quotes[idx]}</span>`;
+    }
+    function startQuoteRotation() { if (quoteInterval) clearInterval(quoteInterval); updateRandomQuote(); quoteInterval = setInterval(updateRandomQuote, 10000); }
+    function stopQuoteRotation() { if (quoteInterval) clearInterval(quoteInterval); quoteInterval = null; }
+
+    function normalize(str) {
+        return str.trim().toLowerCase().replace(/\s+/g, ' ').replace(/[^\wäöüß\s]/g, '');
+    }
+
+    function isAnswerCorrect(userAnswer, correctAlts) {
+        let normUser = normalize(userAnswer);
+        return correctAlts.some(alt => normalize(alt) === normUser);
+    }
+
+    function updateStatsAndProgress() {
+        let answered = correct + wrong;
+        answeredSpan.textContent = answered;
+        let remaining = totalQ - answered;
+        remainingSpan.textContent = remaining;
+        let accuracy = answered === 0 ? 0 : Math.round((correct / answered) * 100);
+        accuracySpan.textContent = accuracy;
+        correctSpan.textContent = correct;
+        mistakeSpan.textContent = wrong;
+        let percent = (answered / totalQ) * 100;
+        progressFill.style.width = percent + '%';
+        progressFraction.textContent = `${answered}/${totalQ}`;
+    }
+
+    function loadQuestion() {
+        if (!quizActive) return;
+        if (currentIndex >= currentQuestions.length) {
+            questionDisplay.textContent = "🎉 Lesson 1 completed! 🎉";
+            answerInput.disabled = true;
+            checkBtn.disabled = true;
+            nextBtn.disabled = true;
+            feedbackArea.innerHTML = "✨ Great job, Nafisa! Review your mistakes below. ✨";
+            showMistakeReview();
+            reviewBlock.classList.remove('hidden');
+            updateStatsAndProgress();
+            return;
+        }
+        let q = currentQuestions[currentIndex];
+        questionDisplay.textContent = q.english;
+        answerInput.value = '';
+        feedbackArea.innerHTML = "✨ Write your answer → press Enter ✨";
+        isAnswered = false;
+        answerInput.disabled = false;
+        checkBtn.disabled = false;
+        nextBtn.disabled = false;
+        updateStatsAndProgress();
+    }
+
+    function handleCheck() {
+        if (!quizActive) return;
+        if (currentIndex >= currentQuestions.length) return;
+        if (isAnswered) {
+            handleNext();
+            return;
+        }
+        let userAnswer = answerInput.value.trim();
+        if (userAnswer === "") {
+            feedbackArea.innerHTML = "⚠️ Please type something, Nafisa! ✨";
+            return;
+        }
+        let currentQ = currentQuestions[currentIndex];
+        let correctAlts = currentQ.germanAlts;
+        if (isAnswerCorrect(userAnswer, correctAlts)) {
+            feedbackArea.innerHTML = `✅ Correct! ✔️ "${correctAlts[0]}" (or variation)`;
+            correct++;
+        } else {
+            let correctDisplay = correctAlts[0];
+            feedbackArea.innerHTML = `❌ Incorrect. Correct: "${correctDisplay}"`;
+            wrong++;
+            mistakes.push({
+                english: currentQ.english,
+                userAnswer: userAnswer,
+                correct: correctDisplay
+            });
+        }
+        isAnswered = true;
+        updateStatsAndProgress();
+    }
+
+    function handleNext() {
+        if (!quizActive) return;
+        if (currentIndex >= currentQuestions.length) return;
+        if (!isAnswered) {
+            handleCheck();
+            return;
+        }
+        currentIndex++;
+        if (currentIndex < currentQuestions.length) {
+            loadQuestion();
+        } else {
+            loadQuestion();  // will show completion and mistake review
+        }
+    }
+
+    function showMistakeReview() {
+        if (mistakes.length === 0) {
+            mistakeList.innerHTML = '<p style="color:#aaffdd;">✨ Perfect, Nafisa! No mistakes! ✨</p>';
+        } else {
+            let html = '';
+            mistakes.forEach(m => {
+                html += `<div class="mistake-item">
+                            <strong>📖 ${m.english}</strong><br>
+                            ✍️ Your answer: ${m.userAnswer}<br>
+                            ✅ Correct: ${m.correct}
+                         </div>`;
+            });
+            mistakeList.innerHTML = html;
+        }
+        reviewBlock.classList.remove('hidden');
+    }
+
+    function resetQuiz() {
+        currentQuestions = shuffleArray([...questionsBank]);
+        currentIndex = 0;
+        correct = 0;
+        wrong = 0;
+        mistakes = [];
+        isAnswered = false;
+        quizActive = true;
+        answerInput.disabled = false;
+        checkBtn.disabled = false;
+        nextBtn.disabled = false;
+        reviewBlock.classList.add('hidden');
+        updateStatsAndProgress();
+        loadQuestion();
+    }
+
+    function startQuiz() {
+        startQuoteRotation();
+        startScreen.classList.add('hidden');
+        quizInterface.classList.remove('hidden');
+        quizActive = true;
+        resetQuiz();
+    }
+
+    function restartQuiz() {
+        resetQuiz();
+        reviewBlock.classList.add('hidden');
+    }
+
+    // Event listeners
+    startBtn.addEventListener('click', startQuiz);
+    checkBtn.addEventListener('click', (e) => { e.preventDefault(); if (quizActive && currentIndex < currentQuestions.length) handleCheck(); });
+    nextBtn.addEventListener('click', (e) => { e.preventDefault(); if (quizActive && currentIndex < currentQuestions.length) handleNext(); });
+    restartTopBtn.addEventListener('click', restartQuiz);
+    restartReviewBtn.addEventListener('click', restartQuiz);
+
+    // Enter key magic
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (!quizActive && !startScreen.classList.contains('hidden')) {
+                startQuiz();
+                return;
+            }
+            if (quizActive && currentIndex < currentQuestions.length) {
+                if (!isAnswered) handleCheck();
+                else handleNext();
+            }
+        }
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => { if (quoteInterval) clearInterval(quoteInterval); });
+</script>
+</body>
+</html>
