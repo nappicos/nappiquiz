@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ A00 with Alex · German Course ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0a0a1a, #010105);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            padding: 3rem 1.5rem;
+            color: #edeff7;
+        }
+
+        /* animated stars (light version) */
+        .star {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle 3s infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.1; transform: scale(0.8); }
+            100% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* header */
+        .hero {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        h1 {
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #e0b0ff, #a070ff, #6a3caf);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 20px rgba(160, 120, 255, 0.4);
+        }
+        .sub {
+            font-size: 1.2rem;
+            color: #b9b3e6;
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(160, 120, 255, 0.4);
+            display: inline-block;
+            padding-top: 0.8rem;
+        }
+
+        /* lesson grid – big rectangles */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .lesson-card {
+            background: rgba(20, 15, 45, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 2.5rem;
+            padding: 2rem 1.8rem;
+            border: 1px solid rgba(180, 130, 255, 0.5);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(160, 120, 255, 0.2) inset;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            text-align: center;
+        }
+        .lesson-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 40px -12px black, 0 0 0 2px rgba(200, 160, 255, 0.6) inset;
+            background: rgba(30, 22, 60, 0.7);
+        }
+        .lesson-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #d0b0ff, #8a5acf);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .lesson-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        .lesson-desc {
+            color: #cbc3f0;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .start-lesson-btn {
+            background: linear-gradient(95deg, #6a3caf, #8a5acf);
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(106, 60, 175, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+        .start-lesson-btn:hover {
+            background: linear-gradient(95deg, #7e4ec9, #9e72e5);
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px rgba(140, 90, 200, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            color: #7f78b0;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 700px) {
+            h1 { font-size: 2.2rem; }
+            .lesson-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🌟 A00 with Alex 🌟</h1>
+            <div class="sub">📘 your German journey — from zero to hero</div>
+        </div>
+
+        <div class="lessons-grid">
+            <!-- LESSON 1 CARD -->
+            <div class="lesson-card">
+                <div class="lesson-number">📖 Lesson 01</div>
+                <div class="lesson-title">✨ Hallo & first steps</div>
+                <div class="lesson-desc">greetings, introducing yourself, countries, verbs: heißen, kommen, sprechen, arbeiten, studieren</div>
+                <a href="lesson1.html" class="start-lesson-btn">🚀 Start lesson →</a>
+            </div>
+
+            <!-- you can add Lesson 2, 3 later by copying the card above and changing href to lesson2.html etc. -->
+        </div>
+
+        <footer>✨ mit Liebe für Nafisa · immer am Lernen ✨</footer>
+    </div>
+
+    <!-- tiny starfield effect -->
+    <script>
+        for(let i=0;i<120;i++){
+            let star = document.createElement('div');
+            star.className = 'star';
+            let size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(star);
+        }
+    </script>
+</body>
+</html>
